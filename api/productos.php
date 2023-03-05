@@ -2,27 +2,19 @@
 // Conexión a la base de datos
 $conexion = mysqli_connect("localhost", "root", "", "sgi");
 
-// Endpoint para obtener todos los productos
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    obtener_productos();
-}
-
-// Endpoint para agregar un nuevo producto
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     agregar_producto();
 }
-
-// Endpoint para obtener un producto por su ID
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
+elseif ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
     obtener_producto_por_id($_GET['id']);
 }
-
-// Endpoint para actualizar un producto
-if ($_SERVER['REQUEST_METHOD'] === 'PUT' && isset($_GET['id'])) {
+elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    obtener_productos();
+}
+elseif ($_SERVER['REQUEST_METHOD'] === 'PUT' && isset($_GET['id'])) {
     actualizar_producto($_GET['id']);
 }
-
-if ($_SERVER['REQUEST_METHOD'] === 'DELETE' && isset($_GET['id'])) {
+elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE' && isset($_GET['id'])) {
     eliminar_producto($_GET['id']);
 }
 

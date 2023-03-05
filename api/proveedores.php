@@ -3,27 +3,20 @@
 $conexion = mysqli_connect("localhost", "root", "", "sgi");
 
 // Endpoint para obtener todos los proveedores
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    obtener_proveedores();
-}
 
-// Endpoint para obtener un proveedor por su ID
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
     obtener_proveedor_por_id($_GET['id']);
 }
-
-// Endpoint para agregar un nuevo proveedor
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    obtener_proveedores();
+}
+elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     agregar_proveedor();
 }
-
-// Endpoint para actualizar un proveedor
-if ($_SERVER['REQUEST_METHOD'] === 'PUT' && isset($_GET['id'])) {
+elseif ($_SERVER['REQUEST_METHOD'] === 'PUT' && isset($_GET['id'])) {
     actualizar_proveedor($_GET['id']);
 }
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'DELETE' && isset($_GET['id'])) {
+elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE' && isset($_GET['id'])) {
     eliminar_proveedor($_GET['id']);
 }
 

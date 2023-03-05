@@ -3,27 +3,20 @@
 $conexion = mysqli_connect("localhost", "root", "", "sgi");
 
 // Endpoint para obtener todos los notas
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    obtener_notas();
-}
 
-// Endpoint para obtener un nota por su ID
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
     obtener_nota_por_id($_GET['id']);
 }
-
-// Endpoint para agregar un nuevo nota
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    obtener_notas();
+}
+elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     agregar_nota();
 }
-
-// Endpoint para actualizar un nota
-if ($_SERVER['REQUEST_METHOD'] === 'PUT' && isset($_GET['id'])) {
+elseif ($_SERVER['REQUEST_METHOD'] === 'PUT' && isset($_GET['id'])) {
     actualizar_nota($_GET['id']);
 }
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'DELETE' && isset($_GET['id'])) {
+elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE' && isset($_GET['id'])) {
     eliminar_nota($_GET['id']);
 }
 
@@ -60,6 +53,7 @@ function obtener_nota_por_id($id) {
     header("Access-Control-Allow-Origin: *");
     header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
     header("Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token, Authorization");
+    
     if ($fila = mysqli_fetch_assoc($consulta)) {
         echo json_encode($fila);
     } else {

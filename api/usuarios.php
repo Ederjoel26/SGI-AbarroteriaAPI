@@ -2,30 +2,22 @@
 // Conexión a la base de datos
 $conexion = mysqli_connect("localhost", "root", "", "sgi");
 
-// Endpoint para obtener todos los usuarios
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    obtener_usuarios();
-}
-
-// Endpoint para obtener un usuario por su ID
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id']) ) {
     obtener_usuario_por_id($_GET['id']);
 }
-
-if($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GEt["correo"]))
-
-// Endpoint para agregar un nuevo usuario
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+elseif($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["correo"])){
+    obtener_usuario_por_correo($_GET["correo"]);
+}
+elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    obtener_usuarios();
+}
+elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     agregar_usuario();
 }
-
-// Endpoint para actualizar un usuario
-if ($_SERVER['REQUEST_METHOD'] === 'PUT' && isset($_GET['id'])) {
+elseif ($_SERVER['REQUEST_METHOD'] === 'PUT' && isset($_GET['id'])) {
     actualizar_usuario($_GET['id']);
 }
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'DELETE' && isset($_GET['id'])) {
+elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE' && isset($_GET['id'])) {
     eliminar_usuario($_GET['id']);
 }
 
@@ -72,7 +64,7 @@ function obtener_usuario_por_id($id) {
 function obtener_usuario_por_correo($correo){
     global $conexion;
 
-    $consulta = mysqli_query($conexion, "SELECT * FROM usuarios WHERE correo = $correo");
+    $consulta = mysqli_query($conexion,"SELECT * FROM usuarios WHERE correo = '$correo'");
 
     header('Content-Type: application/json');
     header("Access-Control-Allow-Origin: *");
