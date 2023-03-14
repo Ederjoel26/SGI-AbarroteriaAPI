@@ -11,11 +11,14 @@ elseif($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["correo"])){
 elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
     obtener_usuarios();
 }
+elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['id'])) {
+    actualizar_usuario($_GET['id']);
+}
+elseif($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['idDelete'])){
+    eliminar_usuario($_GET['idDelete']);
+}
 elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     agregar_usuario();
-}
-elseif ($_SERVER['REQUEST_METHOD'] === 'PUT' && isset($_GET['id'])) {
-    actualizar_usuario($_GET['id']);
 }
 elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE' && isset($_GET['id'])) {
     eliminar_usuario($_GET['id']);
@@ -134,10 +137,10 @@ function actualizar_usuario($id) {
     $consulta = mysqli_query($conexion, "UPDATE usuarios SET nombre='$nombre', correo='$correo', contra='$contra' WHERE id=$id");
 
     // Devuelve una respuesta en formato JSON
-    header('Content-Type: application/json');
-    header("Access-Control-Allow-Origin: *");
-    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-    header("Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token, Authorization");
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
+    header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
+
     if ($consulta) {
         echo json_encode(array('mensaje' => 'Usuario actualizado correctamente'));
     } else {

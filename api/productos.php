@@ -1,8 +1,13 @@
 <?php
 // Conexión a la base de datos
 $conexion = mysqli_connect("localhost", "root", "", "sgi");
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['id'])){
+    actualizar_producto($_GET['id']);
+}
+elseif($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['idDelete'])){
+    eliminar_producto($_GET['idDelete']);
+}
+elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     agregar_producto();
 }
 elseif ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {

@@ -10,6 +10,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
 elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
     obtener_notas();
 }
+elseif($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['id'])){
+    actualizar_nota($_GET['id']);
+}
+elseif($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['idDelete'])){
+    eliminar_nota($_GET['idDelete']);
+}
 elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     agregar_nota();
 }

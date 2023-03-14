@@ -10,11 +10,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
 elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
     obtener_proveedores();
 }
-elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    agregar_proveedor();
-}
 elseif ($_SERVER['REQUEST_METHOD'] === 'PUT' && isset($_GET['id'])) {
     actualizar_proveedor($_GET['id']);
+}
+elseif($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['id'])){
+    actualizar_proveedor($_GET['id']);
+}
+elseif($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['idDelete'])){
+    eliminar_proveedor($_GET['idDelete']);
+}
+elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    agregar_proveedor();
 }
 elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE' && isset($_GET['id'])) {
     eliminar_proveedor($_GET['id']);
