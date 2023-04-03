@@ -1,10 +1,10 @@
 CREATE TABLE proveedores(
 	id int not null AUTO_INCREMENT,
-	proveedor varchar(50),
-	nombre varchar(50),
-	producto varchar(50),
-	precio_unitario double,
-	costo_unitario double,
-	numero_telefonico varchar(50),
+	nombre varchar(50) not null,
+	direccion varchar(240) not null,	
+	correo_electronico varchar(240) not null,
+	nombre_persona_contacto varchar(240) not null,
+	historial_transacciones varchar(240) not null,
+	cuenta_bancaria varchar(240) not null,
 	PRIMARY KEY(id)
 );
