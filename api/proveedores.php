@@ -89,18 +89,16 @@ function agregar_proveedor() {
 
     // Inserta el nuevo proveedor en la base de datos
     $consulta = mysqli_query($conexion, "INSERT INTO proveedores 
-                                            (proveedor, 
-                                            nombre, 
-                                            producto, 
-                                            precio_unitario, 
-                                            costo_unitario, 
-                                            numero_telefonico) 
-                                        VALUES ('$proveedor', 
-                                            '$nombre', 
-                                            '$producto', 
-                                            $precio_unitario, 
-                                            $costo_unitario, 
-                                            '$numero_telefonico')");
+                                            (nombre, 
+                                            direccion, 
+                                            correo_electronico, 
+                                            nombre_persona_contacto, 
+                                            cuenta_bancaria)
+                                        VALUES ('$nombre', 
+                                            '$direccion', 
+                                            '$correo_electronico', 
+                                            '$nombre_persona_contacto', 
+                                            '$cuenta_bancaria')");
 
     // Devuelve una respuesta en formato JSON
     header('Content-Type: application/json');
@@ -139,8 +137,8 @@ function actualizar_proveedor($id) {
     $consulta = mysqli_query($conexion, "UPDATE proveedores 
                                         SET nombre = '$nombre', 
                                         direccion = '$direccion',
-                                        correo_electronico = $correo_electronico, 
-                                        nombre_persona_contacto = $nombre_persona_contacto, 
+                                        correo_electronico = '$correo_electronico', 
+                                        nombre_persona_contacto = '$nombre_persona_contacto', 
                                         cuenta_bancaria = '$cuenta_bancaria'
                                         WHERE id = $id");
 

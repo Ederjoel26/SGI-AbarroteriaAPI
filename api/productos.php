@@ -96,7 +96,7 @@ function agregar_producto() {
     $datos = json_decode(file_get_contents("php://input"), true);
 
     // Valida que se hayan enviado los datos requeridos
-    if (empty($datos['nombre']) || empty($datos['descripcion']) || empty($datos['codigo_barras']) || empty($datos['sku'] || empty($datos['precio'] || empty($datos['cantidad_stock']) || empty($datos['categoria']) || empty($datos['proveedor']) || empty($datos['fecha_entrada'])) {
+    if (empty($datos['nombre']) || empty($datos['descripcion']) || empty($datos['codigo_barras']) || empty($datos['sku']) || empty($datos['precio']) || empty($datos['cantidad_stock']) || empty($datos['categoria']) || empty($datos['proveedor']) || empty($datos['fecha_entrada'])) {
         http_response_code(400);
         echo json_encode(array('error' => 'Faltan datos requeridos'));
         return;
@@ -119,21 +119,22 @@ function agregar_producto() {
                                                     (nombre, 
                                                     descripcion, 
                                                     codigo_barras, 
-                                                    sku, precio, 
+                                                    sku, 
+                                                    precio, 
                                                     cantidad_stock, 
                                                     categoria, 
                                                     proveedor, 
                                                     fecha_entrada) 
                                                 VALUES 
                                                     ('$nombre', 
-                                                    $descripcion, 
-                                                    $codigo_barras, 
-                                                    $sku, 
+                                                    '$descripcion', 
+                                                    '$codigo_barras', 
+                                                    '$sku', 
                                                     $precio, 
                                                     $cantidad_stock, 
                                                     '$categoria', 
                                                     $proveedor, 
-                                                    '$fecha_entrada'))");
+                                                    '$fecha_entrada')");
 
     // Devuelve una respuesta en formato JSON
     header('Content-Type: application/json');
@@ -155,7 +156,7 @@ function actualizar_producto($id) {
     $datos = json_decode(file_get_contents("php://input"), true);
 
    // Valida que se hayan enviado los datos requeridos
-   if (empty($datos['nombre']) || empty($datos['descripcion']) || empty($datos['codigo_barras']) || empty($datos['sku'] || empty($datos['precio'] || empty($datos['cantidad_stock']) || empty($datos['categoria']) || empty($datos['proveedor']) || empty($datos['fecha_entrada'])) {
+   if (empty($datos['nombre']) || empty($datos['descripcion']) || empty($datos['codigo_barras']) || empty($datos['sku']) || empty($datos['precio']) || empty($datos['cantidad_stock']) || empty($datos['categoria']) || empty($datos['proveedor']) || empty($datos['fecha_entrada'])) {
         http_response_code(400);
         echo json_encode(array('error' => 'Faltan datos requeridos'));
         return;
