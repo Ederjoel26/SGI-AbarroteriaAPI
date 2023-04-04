@@ -4,7 +4,6 @@ CREATE TABLE proveedores(
 	direccion varchar(240) not null,	
 	correo_electronico varchar(240) not null,
 	nombre_persona_contacto varchar(240) not null,
-	historial_transacciones varchar(240) not null,
 	cuenta_bancaria varchar(240) not null,
 	PRIMARY KEY(id)
 );

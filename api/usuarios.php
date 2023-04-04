@@ -88,19 +88,24 @@ function agregar_usuario() {
     $datos = json_decode(file_get_contents("php://input"), true);
 
     // Valida que se hayan enviado los datos requeridos
-    if (empty($datos['nombre']) || empty($datos['correo']) || empty($datos['contra'])) {
+    if (empty($datos['nombre_usuario']) || empty($datos['nombre_completo']) || empty($datos['correo']) || empty($datos['contra']) || empty($datos['fecha_nacimiento']) || empty($datos['direccion']) || empty($datos['numero_telefono']) || empty($datos['rol_usuario'])) {
         http_response_code(400);
         echo json_encode(array('error' => 'Faltan datos requeridos'));
         return;
     }
 
     // Escapa los datos para prevenir SQL injection
-    $nombre = mysqli_real_escape_string($conexion, $datos['nombre']);
+    $nombre_usuario = mysqli_real_escape_string($conexion, $datos['nombre_usuario']);
+    $nombre_completo = mysqli_real_escape_string($conexion, $datos['nombre_completo']);
     $correo = mysqli_real_escape_string($conexion, $datos['correo']);
     $contra = mysqli_real_escape_string($conexion, $datos['contra']);
+    $fecha_nacimiento = mysqli_real_escape_string($conexion, $datos['fecha_nacimiento']);
+    $direccion = mysqli_real_escape_string($conexion, $datos['direccion']);
+    $numero_telefono = mysqli_real_escape_string($conexion, $datos['numero_telefono']);
+    $rol_usuario = mysqli_real_escape_string($conexion, $datos['rol_usuario']);
 
     // Inserta el nuevo usuario en la base de datos
-    $consulta = mysqli_query($conexion, "INSERT INTO usuarios (nombre, correo, contra) VALUES ('$nombre', '$correo', '$contra')");
+    $consulta = mysqli_query($conexion, "INSERT INTO usuarios (nombre_usuario, nombre_completo, correo, contra, fecha_nacimiento, direccion, numero_telefono, rol_usuario) VALUES ('$nombre_usuario', '$nombre_completo', '$correo', '$contra', '$fecha_nacimiento', '$direccion', '$numero_telefono', '$rol_usuario')");
 
     // Devuelve una respuesta en formato JSON
     header('Content-Type: application/json');
@@ -122,19 +127,24 @@ function actualizar_usuario($id) {
     $datos = json_decode(file_get_contents("php://input"), true);
 
     // Valida que se hayan enviado los datos requeridos
-    if (empty($datos['nombre']) || empty($datos['correo']) || empty($datos['contra'])) {
+    if (empty($datos['nombre_usuario']) || empty($datos['nombre_completo']) || empty($datos['correo']) || empty($datos['contra']) || empty($datos['fecha_nacimiento']) || empty($datos['direccion']) || empty($datos['numero_telefono']) || empty($datos['rol_usuario'])) {
         http_response_code(400);
         echo json_encode(array('error' => 'Faltan datos requeridos'));
         return;
     }
 
     // Escapa los datos para prevenir SQL injection
-    $nombre = mysqli_real_escape_string($conexion, $datos['nombre']);
+    $nombre_usuario = mysqli_real_escape_string($conexion, $datos['nombre_usuario']);
+    $nombre_completo = mysqli_real_escape_string($conexion, $datos['nombre_completo']);
     $correo = mysqli_real_escape_string($conexion, $datos['correo']);
     $contra = mysqli_real_escape_string($conexion, $datos['contra']);
+    $fecha_nacimiento = mysqli_real_escape_string($conexion, $datos['fecha_nacimiento']);
+    $direccion = mysqli_real_escape_string($conexion, $datos['direccion']);
+    $numero_telefono = mysqli_real_escape_string($conexion, $datos['numero_telefono']);
+    $rol_usuario = mysqli_real_escape_string($conexion, $datos['rol_usuario']);
 
     // Actualiza el usuario en la base de datos
-    $consulta = mysqli_query($conexion, "UPDATE usuarios SET nombre='$nombre', correo='$correo', contra='$contra' WHERE id=$id");
+    $consulta = mysqli_query($conexion, "UPDATE usuarios SET nombre_usuario = '$nombre_usuario', nombre_completo = '$nombre_completo', correo = '$correo', contra = '$contra', fecha_nacimiento = '$fecha_nacimiento', direccion = '$direccion', numero_telefono = '$numero_telefono', rol_usuario = '$rol_usuario' WHERE id = $id");
 
     // Devuelve una respuesta en formato JSON
     header('Access-Control-Allow-Origin: *');

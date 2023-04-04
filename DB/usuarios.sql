@@ -6,7 +6,7 @@ CREATE TABLE usuarios(
 	contra varchar(240) not null,
 	fecha_nacimiento varchar(240) not null,
 	direccion varchar(240) not null,
-	numero_telerfono varchar(240) not null,
+	numero_telefono varchar(240) not null,
 	rol_usuario varchar(240) not null,
 	PRIMARY KEY(id)
 );

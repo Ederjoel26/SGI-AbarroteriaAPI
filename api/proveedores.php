@@ -74,23 +74,33 @@ function agregar_proveedor() {
     $datos = json_decode(file_get_contents("php://input"), true);
 
     // Valida que se hayan enviado los datos requeridos
-    if (empty($datos['proveedor']) || empty($datos['nombre']) || empty($datos['producto']) || empty($datos['precio_unitario']) || empty($datos['costo_unitario']) || empty($datos['numero_telefonico'])) {
+    if (empty($datos['nombre']) || empty($datos['direccion']) || empty($datos['correo_electronico']) || empty($datos['nombre_persona_contacto']) || empty($datos['cuenta_bancaria'])) {
         http_response_code(400);
         echo json_encode(array('error' => 'Faltan datos requeridos'));
         return;
     }
 
     // Escapa los datos para prevenir SQL injection
-    $proveedor = mysqli_real_escape_string($conexion, $datos['proveedor']);
     $nombre = mysqli_real_escape_string($conexion, $datos['nombre']);
-    $producto = mysqli_real_escape_string($conexion, $datos['producto']);
-    $precio_unitario = mysqli_real_escape_string($conexion, $datos['precio_unitario']);
-    $costo_unitario = mysqli_real_escape_string($conexion, $datos['costo_unitario']);
-    $numero_telefonico = mysqli_real_escape_string($conexion, $datos['numero_telefonico']);
+    $direccion = mysqli_real_escape_string($conexion, $datos['direccion']);
+    $correo_electronico = mysqli_real_escape_string($conexion, $datos['correo_electronico']);
+    $nombre_persona_contacto = mysqli_real_escape_string($conexion, $datos['nombre_persona_contacto']);
+    $cuenta_bancaria = mysqli_real_escape_string($conexion, $datos['cuenta_bancaria']);
 
     // Inserta el nuevo proveedor en la base de datos
-    $consulta = mysqli_query($conexion, "INSERT INTO proveedores (proveedor, nombre, producto, precio_unitario, costo_unitario, numero_telefonico) 
-    VALUES ('$proveedor', '$nombre', '$producto', $precio_unitario, $costo_unitario, '$numero_telefonico')");
+    $consulta = mysqli_query($conexion, "INSERT INTO proveedores 
+                                            (proveedor, 
+                                            nombre, 
+                                            producto, 
+                                            precio_unitario, 
+                                            costo_unitario, 
+                                            numero_telefonico) 
+                                        VALUES ('$proveedor', 
+                                            '$nombre', 
+                                            '$producto', 
+                                            $precio_unitario, 
+                                            $costo_unitario, 
+                                            '$numero_telefonico')");
 
     // Devuelve una respuesta en formato JSON
     header('Content-Type: application/json');
@@ -112,23 +122,26 @@ function actualizar_proveedor($id) {
     $datos = json_decode(file_get_contents("php://input"), true);
 
     // Valida que se hayan enviado los datos requeridos
-    if (empty($datos['proveedor']) || empty($datos['nombre']) || empty($datos['producto']) || empty($datos["precio_unitario"]) || empty($datos["costo_unitario"]) || empty($datos["numero_telefonico"])) {
+    if (empty($datos['nombre']) || empty($datos['direccion']) || empty($datos['correo_electronico']) || empty($datos['nombre_persona_contacto']) || empty($datos['cuenta_bancaria'])) {
         http_response_code(400);
         echo json_encode(array('error' => 'Faltan datos requeridos'));
         return;
     }
 
     // Escapa los datos para prevenir SQL injection
-    $proveedor = mysqli_real_escape_string($conexion, $datos['proveedor']);
     $nombre = mysqli_real_escape_string($conexion, $datos['nombre']);
-    $producto = mysqli_real_escape_string($conexion, $datos['producto']);
-    $precio_unitario = mysqli_real_escape_string($conexion, $datos["precio_unitario"]);
-    $costo_unitario = mysqli_real_escape_string($conexion, $datos["costo_unitario"]);
-    $numero_telefonico = mysqli_real_escape_string($conexion, $datos["numero_telefonico"]);
+    $direccion = mysqli_real_escape_string($conexion, $datos['direccion']);
+    $correo_electronico = mysqli_real_escape_string($conexion, $datos['correo_electronico']);
+    $nombre_persona_contacto = mysqli_real_escape_string($conexion, $datos['nombre_persona_contacto']);
+    $cuenta_bancaria = mysqli_real_escape_string($conexion, $datos['cuenta_bancaria']);
 
     // Actualiza el proveedor en la base de datos
     $consulta = mysqli_query($conexion, "UPDATE proveedores 
-                                        SET proveedor = '$proveedor', nombre = '$nombre', producto = '$producto', precio_unitario = $precio_unitario, costo_unitario = $costo_unitario, numero_telefonico = '$numero_telefonico'
+                                        SET nombre = '$nombre', 
+                                        direccion = '$direccion',
+                                        correo_electronico = $correo_electronico, 
+                                        nombre_persona_contacto = $nombre_persona_contacto, 
+                                        cuenta_bancaria = '$cuenta_bancaria'
                                         WHERE id = $id");
 
     // Devuelve una respuesta en formato JSON

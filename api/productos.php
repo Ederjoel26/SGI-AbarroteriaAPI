@@ -28,7 +28,19 @@ function obtener_productos() {
     global $conexion;
 
     // Realiza la consulta a la base de datos
-    $consulta = mysqli_query($conexion, "SELECT p.id, p.producto, p.cantidad, pr.nombre AS proveedor, p.costo_unitario FROM productos p INNER JOIN proveedores pr ON p.proveedor = pr.id;");
+    $consulta = mysqli_query($conexion, "SELECT 
+                                            p.id, 
+                                            p.nombre, 
+                                            p.descripcion, 
+                                            p.codigo_barras, 
+                                            p.sku, 
+                                            p.precio, 
+                                            p.cantidad_stock, 
+                                            p.categoria, 
+                                            pr.nombre AS proveedor_nombre, 
+                                            p.fecha_entrada 
+                                        FROM productos p 
+                                        INNER JOIN proveedores pr ON p.proveedor = pr.id;");
 
     // Construye un array con los resultados
     $productos = array();
@@ -49,7 +61,20 @@ function obtener_producto_por_id($id) {
     global $conexion;
 
     // Realiza la consulta a la base de datos
-    $consulta = mysqli_query($conexion, "SELECT p.id, p.producto, p.cantidad, pr.nombre AS proveedor, p.costo_unitario FROM productos p INNER JOIN proveedores pr ON p.proveedor = pr.id WHERE p.id = $id");
+    $consulta = mysqli_query($conexion, "SELECT 
+                                            p.id, 
+                                            p.nombre, 
+                                            p.descripcion, 
+                                            p.codigo_barras, 
+                                            p.sku, 
+                                            p.precio, 
+                                            p.cantidad_stock, 
+                                            p.categoria, 
+                                            pr.nombre AS proveedor_nombre, 
+                                            p.fecha_entrada 
+                                        FROM productos p 
+                                        INNER JOIN proveedores pr ON p.proveedor = pr.id
+                                        WHERE p.id = $id");
 
     // Devuelve una respuesta en formato JSON
     header('Content-Type: application/json');
@@ -71,21 +96,44 @@ function agregar_producto() {
     $datos = json_decode(file_get_contents("php://input"), true);
 
     // Valida que se hayan enviado los datos requeridos
-    if (empty($datos['producto']) || empty($datos['cantidad']) || empty($datos['proveedor']) || empty($datos['costo_unitario'])) {
+    if (empty($datos['nombre']) || empty($datos['descripcion']) || empty($datos['codigo_barras']) || empty($datos['sku'] || empty($datos['precio'] || empty($datos['cantidad_stock']) || empty($datos['categoria']) || empty($datos['proveedor']) || empty($datos['fecha_entrada'])) {
         http_response_code(400);
         echo json_encode(array('error' => 'Faltan datos requeridos'));
         return;
     }
 
     // Escapa los datos para prevenir SQL injection
-    $producto = mysqli_real_escape_string($conexion, $datos['producto']);
-    $cantidad = mysqli_real_escape_string($conexion, $datos['cantidad']);
+    $nombre = mysqli_real_escape_string($conexion, $datos['nombre']);
+    $descripcion = mysqli_real_escape_string($conexion, $datos['descripcion']);
+    $codigo_barras = mysqli_real_escape_string($conexion, $datos['codigo_barras']);
+    $sku = mysqli_real_escape_string($conexion, $datos['sku']);
+    $precio = mysqli_real_escape_string($conexion, $datos['precio']);
+    $cantidad_stock = mysqli_real_escape_string($conexion, $datos['cantidad_stock']);
+    $categoria = mysqli_real_escape_string($conexion, $datos['categoria']);
     $proveedor = mysqli_real_escape_string($conexion, $datos['proveedor']);
-    $costo_unitario = mysqli_real_escape_string($conexion, $datos['costo_unitario']);
+    $fecha_entrada = mysqli_real_escape_string($conexion, $datos['fecha_entrada']);
 
 
     // Inserta el nuevo producto en la base de datos
-    $consulta = mysqli_query($conexion, "INSERT INTO productos (producto, cantidad, proveedor, costo_unitario) VALUES ('$producto', $cantidad, $proveedor, $costo_unitario)");
+    $consulta = mysqli_query($conexion, "INSERT INTO productos 
+                                                    (nombre, 
+                                                    descripcion, 
+                                                    codigo_barras, 
+                                                    sku, precio, 
+                                                    cantidad_stock, 
+                                                    categoria, 
+                                                    proveedor, 
+                                                    fecha_entrada) 
+                                                VALUES 
+                                                    ('$nombre', 
+                                                    $descripcion, 
+                                                    $codigo_barras, 
+                                                    $sku, 
+                                                    $precio, 
+                                                    $cantidad_stock, 
+                                                    '$categoria', 
+                                                    $proveedor, 
+                                                    '$fecha_entrada'))");
 
     // Devuelve una respuesta en formato JSON
     header('Content-Type: application/json');
@@ -106,21 +154,36 @@ function actualizar_producto($id) {
     // Obtiene los datos enviados en el cuerpo de la petición
     $datos = json_decode(file_get_contents("php://input"), true);
 
-    // Valida que se hayan enviado los datos requeridos
-    if (empty($datos['producto']) || empty($datos['cantidad']) || empty($datos['proveedor']) || empty($datos['costo_unitario'])) {
+   // Valida que se hayan enviado los datos requeridos
+   if (empty($datos['nombre']) || empty($datos['descripcion']) || empty($datos['codigo_barras']) || empty($datos['sku'] || empty($datos['precio'] || empty($datos['cantidad_stock']) || empty($datos['categoria']) || empty($datos['proveedor']) || empty($datos['fecha_entrada'])) {
         http_response_code(400);
         echo json_encode(array('error' => 'Faltan datos requeridos'));
         return;
     }
 
     // Escapa los datos para prevenir SQL injection
-    $producto = mysqli_real_escape_string($conexion, $datos['producto']);
-    $cantidad = mysqli_real_escape_string($conexion, $datos['cantidad']);
+    $nombre = mysqli_real_escape_string($conexion, $datos['nombre']);
+    $descripcion = mysqli_real_escape_string($conexion, $datos['descripcion']);
+    $codigo_barras = mysqli_real_escape_string($conexion, $datos['codigo_barras']);
+    $sku = mysqli_real_escape_string($conexion, $datos['sku']);
+    $precio = mysqli_real_escape_string($conexion, $datos['precio']);
+    $cantidad_stock = mysqli_real_escape_string($conexion, $datos['cantidad_stock']);
+    $categoria = mysqli_real_escape_string($conexion, $datos['categoria']);
     $proveedor = mysqli_real_escape_string($conexion, $datos['proveedor']);
-    $costo_unitario = mysqli_real_escape_string($conexion, $datos['costo_unitario']);
+    $fecha_entrada = mysqli_real_escape_string($conexion, $datos['fecha_entrada']);
 
     // Actualiza el producto en la base de datos
-    $consulta = mysqli_query($conexion, "UPDATE productos SET producto = '$producto', cantidad = $cantidad, proveedor = $proveedor, costo_unitario = $costo_unitario WHERE id = $id");
+    $consulta = mysqli_query($conexion, "UPDATE productos SET 
+                                                    nombre = '$nombre', 
+                                                    descripcion = '$descripcion', 
+                                                    codigo_barras = '$codigo_barras', 
+                                                    sku = '$sku', 
+                                                    precio = $precio, 
+                                                    antidad_stock = $cantidad_stock, 
+                                                    categoria = '$categoria', 
+                                                    proveedor = $proveedor, 
+                                                    fecha_entrada = '$fecha_entrada' 
+                                                    WHERE id = $id");
 
     // Devuelve una respuesta en formato JSON
     header('Content-Type: application/json');
